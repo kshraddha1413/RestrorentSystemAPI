@@ -1,9 +1,11 @@
 package com.shr.restau;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import com.shr.restau.*;
 
-class Menu {
+public class Menu {
 
 	static Appetizer ape;
 	static MainCourse main;
@@ -19,18 +21,16 @@ class Menu {
 	public void addNewItem(String itemType, String itemName, double price) {
 
 		if (itemType == ConstantFood.APPETIZER) {
-			Appetizer apeObj = new Appetizer();
-			HashMap<String, Double> apelList = apeObj.getFoodListMap();
-			apelList.put(itemName, price);
+			Appetizer.aptMap.put(itemName, price);
+			MenuItems.put(itemName, price);
 		} else if (itemType == ConstantFood.MAINDISH) {
-			MainCourse mainobj = new MainCourse();
-			HashMap<String, Double> mainDishList = mainobj.getFoodListMap();
-			mainDishList.put(itemName, price);
-		}
-		if (itemType == ConstantFood.DESSERT) {
-			Desert desrtobj = new Desert();
-			HashMap<String, Double> desertList = desrtobj.getFoodListMap();
-			desertList.put(itemName, price);
+			MainCourse.mainCourseMap.put(itemName, price);
+			MenuItems.put(itemName, price);
+		} else if (itemType == ConstantFood.DESSERT) {
+			Desert.desertmap.put(itemName, price);
+			MenuItems.put(itemName, price);
+		} else {
+			System.out.println("Item type invalid");
 		}
 
 	}
@@ -40,6 +40,7 @@ class Menu {
 		MenuItems.putAll(main.getFoodListMap());
 		MenuItems.putAll(des.getFoodListMap());
 		return MenuItems;
+
 	}
 
 	public void printMenu() {

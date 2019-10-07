@@ -1,11 +1,13 @@
 package com.shr.restau;
+
 import java.util.HashMap;
 
-
-public class Desert implements FoodItem{
-	String desertDishName;
-	double price;
+public class Desert extends MenuItem implements FoodItem {
+	
 	static HashMap<String, Double> desertmap = new HashMap<String, Double>();
+	Desert() {
+
+	}
 
 	public void addFoodItem(String itemName, double price) {
 		desertmap.put(itemName, price);
@@ -15,7 +17,7 @@ public class Desert implements FoodItem{
 		desertmap.put(itemName, price);
 	}
 
-	public HashMap<String, Double> getFoodListMap(){
+	public HashMap<String, Double> getFoodListMap() {
 		return desertmap;
 	}
 
