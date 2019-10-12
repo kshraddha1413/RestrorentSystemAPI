@@ -5,7 +5,7 @@ public class Message {
 	String message;
 
 	public Message() {
-
+		
 	}
 
 	public Message(String result) {

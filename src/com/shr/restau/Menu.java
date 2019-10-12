@@ -1,65 +1,77 @@
 package com.shr.restau;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import com.shr.restau.*;
 
 public class Menu {
 
-	static Appetizer ape;
-	static MainCourse main;
-	static Desert des;
-	static HashMap<String, Double> MenuItems = new HashMap<>();
+	static List<MenuItemDetails> MenuItems = new ArrayList<>();
 
 	Menu() {
-		ape = new Appetizer();
-		main = new MainCourse();
-		des = new Desert();
 	}
 
-	public void addNewItem(String itemType, String itemName, double price) {
+	public Message addMenuItem(MenuItemDetails menuItemDetails) {
 
-		if (itemType == ConstantFood.APPETIZER) {
-			Appetizer.aptMap.put(itemName, price);
-			MenuItems.put(itemName, price);
-		} else if (itemType == ConstantFood.MAINDISH) {
-			MainCourse.mainCourseMap.put(itemName, price);
-			MenuItems.put(itemName, price);
-		} else if (itemType == ConstantFood.DESSERT) {
-			Desert.desertmap.put(itemName, price);
-			MenuItems.put(itemName, price);
+		boolean alreadyAddedStatus = false;
+		for (MenuItemDetails m : MenuItems) {
+			if (m.itemName == menuItemDetails.getItemName()) {
+				alreadyAddedStatus = true;
+				break;
+			}
+		}
+		if (alreadyAddedStatus) {
+			return new Message("Item already available in Menu");
 		} else {
-			System.out.println("Item type invalid");
+			MenuItems.add(menuItemDetails);
+			return new Message("Item added to Menu");
 		}
-
 	}
 
-	public static HashMap<String, Double> getMenuItems() {
-		MenuItems.putAll(ape.getFoodListMap());
-		MenuItems.putAll(main.getFoodListMap());
-		MenuItems.putAll(des.getFoodListMap());
+	public List<MenuItemDetails> getMenuItems() {
 		return MenuItems;
-
 	}
 
-	public void printMenu() {
-		System.out.println("******Apetizers :**********");
-		HashMap<String, Double> aptmap = (ape.getFoodListMap());
-		for (Map.Entry<String, Double> i : aptmap.entrySet()) {
-			System.out.println(i.getKey() + " : " + i.getValue());
-
+	public Message updateMenuItems(MenuItemDetails menuItemDetails) {
+		boolean updateStatus = false;
+		for (MenuItemDetails m : MenuItems) {
+			if (m.itemName == menuItemDetails.getItemName()) {
+				m.price = menuItemDetails.getPrice();
+				updateStatus = true;
+				break;
+			}
 		}
-		System.out.println("\b******Main Course dishes :\b*****");
-		HashMap<String, Double> mainmap = (main.getFoodListMap());
-		for (Entry<String, Double> i : mainmap.entrySet()) {
-			System.out.println(i.getKey() + " : " + i.getValue());
-
-		}
-		System.out.println("\b******Desert Items :\b*****");
-		HashMap<String, Double> desertmap = (des.getFoodListMap());
-		for (Entry<String, Double> i : desertmap.entrySet()) {
-			System.out.println(i.getKey() + " : " + i.getValue());
+		if (updateStatus) {
+			return (new Message("updated"));
+		} else {
+			return (new Message("item not found"));
 		}
 	}
+
+	public Message deleteMenuItems(MenuItemDetails menuItemDetails) {
+		boolean deleteStatus = false;
+		for (int i = 0; i < MenuItems.size(); i++) {
+			if (MenuItems.get(i).itemName == menuItemDetails.getItemName()) {
+				MenuItems.remove(i);
+				deleteStatus = true;
+				break;
+			}
+		}
+		if (deleteStatus) {
+			return (new Message("deleted"));
+		} else {
+			return (new Message("item not found"));
+		}
+	}
+
+	public void printMenuItems() {
+		System.out.println("itemType  | itemName | price");
+		for (MenuItemDetails m : MenuItems) {
+			System.out.println(m.itemType + " | " + m.itemName + " | " + m.price);
+		}
+	}
+
 }
